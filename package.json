@@ -1,0 +1,21 @@
+{
+  "name": "webpack-parse-react-demo",
+  "version": "0.0.0",
+  "description": "Demo on Webpack ParseReact",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [
+    "webpack",
+    "parse",
+    "react"
+  ],
+  "author": "Harry Ng",
+  "license": "MIT",
+  "devDependencies": {
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.9.10"
+  }
+}
