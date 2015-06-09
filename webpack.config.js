@@ -13,6 +13,14 @@ var common = {
     filename: 'bundle.js',
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        // define an include so we check just the files we need
+        include: path.join(ROOT_PATH, 'app'),
+        loader: 'jshint'
+      }
+    ],
     loaders: [
       {
         test: /\.css$/,
@@ -46,6 +54,18 @@ if(TARGET === 'dev') {
       'webpack-dev-server/client?http://' + IP + ':' + PORT,
       'webpack/hot/dev-server',
     ],
+    module: {
+      preLoaders: [
+        {
+          test: /\.jsx?$/,
+          // we are using `eslint-loader` explicitly since
+          // we have eslint module installed. This way we
+          // can be certain that it uses the right loader
+          loader: 'eslint-loader',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ],
+    },
     output: {
       path: __dirname,
       filename: 'bundle.js',
