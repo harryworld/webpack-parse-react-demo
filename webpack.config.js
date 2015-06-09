@@ -1,9 +1,60 @@
+var webpack = require('webpack');
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var merge = require('./lib/merge');
 
-module.exports = {
-  entry: path.resolve(__dirname, 'app/main.js'),
+var TARGET = process.env.TARGET;
+var ROOT_PATH = path.resolve(__dirname);
+
+var common = {
+  entry: [path.join(ROOT_PATH, 'app/main')],
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
   },
+  module: {
+    loaders: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css']
+      }
+    ]
+  },
 };
+
+var mergeConfig = merge.bind(null, common);
+
+if(TARGET === 'build') {
+  module.exports = mergeConfig({
+    plugins: [
+      new HtmlWebpackPlugin({
+        title: 'Webpack ParseReact Demo',
+        template: path.join(ROOT_PATH, 'app/index.html')
+      }),
+    ],
+  });
+}
+
+if(TARGET === 'dev') {
+  var IP = '0.0.0.0';
+  var PORT = 8080;
+
+  module.exports = mergeConfig({
+    ip: IP,
+    port: PORT,
+    entry: [
+      'webpack-dev-server/client?http://' + IP + ':' + PORT,
+      'webpack/hot/dev-server',
+    ],
+    output: {
+      path: __dirname,
+      filename: 'bundle.js',
+      publicPath: '/'
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoErrorsPlugin(),
+      new HtmlWebpackPlugin(),
+    ]
+  });
+}
