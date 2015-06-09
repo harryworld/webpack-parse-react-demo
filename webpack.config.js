@@ -7,7 +7,10 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  entry: [path.join(ROOT_PATH, 'app/main')],
+  entry: [path.join(ROOT_PATH, 'app/main.jsx')],
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: 'bundle.js',
@@ -23,6 +26,16 @@ var common = {
     ],
     loaders: [
       {
+        // test for both js and jsx
+        test: /\.jsx?$/,
+
+        // use babel loader
+        loader: 'babel',
+
+        // operate only on our app directory
+        include: path.join(ROOT_PATH, 'app'),
+      },
+      {
         test: /\.css$/,
         loaders: ['style', 'css']
       }
@@ -34,7 +47,27 @@ var mergeConfig = merge.bind(null, common);
 
 if(TARGET === 'build') {
   module.exports = mergeConfig({
+    module: {
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loader: 'babel',
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
+    },
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          // This has effect on the react lib size
+          'NODE_ENV': JSON.stringify('production'),
+        }
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        },
+      }),
       new HtmlWebpackPlugin({
         title: 'Webpack ParseReact Demo',
         template: path.join(ROOT_PATH, 'app/index.html')
@@ -52,7 +85,7 @@ if(TARGET === 'dev') {
     port: PORT,
     entry: [
       'webpack-dev-server/client?http://' + IP + ':' + PORT,
-      'webpack/hot/dev-server',
+      'webpack/hot/only-dev-server',
     ],
     module: {
       preLoaders: [
@@ -65,6 +98,13 @@ if(TARGET === 'dev') {
           include: path.join(ROOT_PATH, 'app'),
         }
       ],
+      loaders: [
+        {
+          test: /\.jsx?$/,
+          loaders: ['react-hot', 'babel'],
+          include: path.join(ROOT_PATH, 'app'),
+        }
+      ]
     },
     output: {
       path: __dirname,
