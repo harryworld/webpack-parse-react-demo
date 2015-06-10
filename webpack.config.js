@@ -114,7 +114,10 @@ if(TARGET === 'dev') {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin(),
-      new HtmlWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        title: 'Webpack ParseReact Demo',
+        template: path.join(ROOT_PATH, 'app/index.html')
+      }),
     ]
   });
 }

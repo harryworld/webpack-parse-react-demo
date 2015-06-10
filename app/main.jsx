@@ -1,7 +1,7 @@
 import './stylesheets/main.css';
 
 import React from 'react';
-import App from './components/App';
+import Story from './components/Story';
 import Parse from 'parse';
 
 Parse.Parse.initialize('APPLICATION_ID', 'JAVASCRIPT_KEY');
@@ -12,5 +12,5 @@ function main() {
     var app = document.createElement('div');
     document.body.appendChild(app);
 
-    React.render(<App />, app);
+    React.render(<Story />, app);
 }
