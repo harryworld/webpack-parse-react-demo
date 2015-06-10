@@ -1,16 +1,12 @@
 import './stylesheets/main.css';
 
 import React from 'react';
-import Story from './components/Story';
 import Parse from 'parse';
+import Router from 'react-router';
+import Routes from './Routes';
 
 Parse.Parse.initialize('APPLICATION_ID', 'JAVASCRIPT_KEY');
 
-main();
-
-function main() {
-    var app = document.createElement('div');
-    document.body.appendChild(app);
-
-    React.render(<Story />, app);
-}
+Router.run(Routes, Router.HistoryLocation, function (Handler) {
+  React.render(<Handler/>, document.body);
+});
