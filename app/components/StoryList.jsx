@@ -2,18 +2,14 @@ import React from 'react';
 import ParseLib from 'parse';
 import ParseReact from 'parse-react';
 import ParseComponent from 'parse-react/class';
+import { Link } from 'react-router';
 
 var Parse = ParseLib.Parse;
 
 export default class Story extends ParseComponent {
-  observe(props) {
-    var objectId = props.params.id;
-    var story = new Parse.Object('Story');
-    story.id = props.params.id;
-
+  observe() {
     return {
-      stories: new Parse.Query('Story').equalTo('objectId', objectId),
-      pages: new Parse.Query('Page').equalTo('story', story),
+      stories: new Parse.Query('Story'),
       user: ParseReact.currentUser
     };
   }
@@ -26,17 +22,10 @@ export default class Story extends ParseComponent {
         <div className="story">
           <div>Some stories</div>
           {this.data.stories.map(function(s) {
+            console.log(s.objectId);
             return (
               <div key={s.objectId} className='storyRow'>
-                <div>{s.content}</div>
-              </div>
-            );
-          }, this)}
-          <div>Pages</div>
-          {this.data.pages.map(function(p) {
-            return (
-              <div key={p.objectId} className="pageRow">
-                <div>{p.content}</div>
+                <div><Link to={'/stories/' + s.objectId} className='btn btn-default'>{s.content}</Link></div>
               </div>
             );
           }, this)}
