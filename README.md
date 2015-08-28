@@ -11,6 +11,12 @@
 Parse.Parse.initialize('APPLICATION_ID', 'JAVASCRIPT_KEY');
 ```
 
+# Testing
+
+- Use `karma` and `mocha` in a rspec style
+- Run `npm test` to start
+- Thanks to `karma`, the test will watch file changes and re-run automatically
+
 ## References
 
 - [ParseReact](https://github.com/ParsePlatform/ParseReact/)
