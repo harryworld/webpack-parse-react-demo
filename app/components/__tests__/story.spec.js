@@ -2,9 +2,9 @@ import { Parse } from 'parse';
 import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import expect from 'expect';
-import Story from '../../app/components/Story';
+import Story from '../Story';
 
-import StubRouterContext  from '../support/stub_router_context';
+import StubRouterContext  from './stub_router_context';
 
 Parse.initialize('testid', 'testkey');
 

@@ -2,9 +2,9 @@ import React from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 import expect from 'expect';
 
-import App from '../../app/components/App';
+import App from '../App';
 
-import StubRouterContext  from '../support/stub_router_context';
+import StubRouterContext  from './stub_router_context';
 
 describe('app', function() {
   it('renders app', function(done) {
